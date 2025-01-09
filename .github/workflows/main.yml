@@ -1,4 +1,4 @@
-name: Deploy to S3
+name: Test AWS Credentials
 
 on:
   push:
@@ -6,13 +6,10 @@ on:
       - main
 
 jobs:
-  deploy:
+  test:
     runs-on: ubuntu-latest
 
     steps:
-    - name: Checkout code
-      uses: actions/checkout@v3
-
     - name: Configure AWS credentials
       uses: aws-actions/configure-aws-credentials@v3
       with:
@@ -21,8 +18,4 @@ jobs:
         aws-region: eu-central-1
 
     - name: Debug AWS Credentials
-      run: aws configure list
-
-    - name: Sync files to S3
-      run: aws s3 sync . s3://izhak-bucket --delete
-
+      run: aws sts get-caller-identity
